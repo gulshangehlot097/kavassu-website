@@ -1,15 +1,13 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "./partial/header";
+import Footer from "./partial/footer";
+import { Toaster } from "react-hot-toast";
+import { ProductProvider } from "./context/productcontext";
+import RouteLoader from "./components/routeloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata = {
   title: "Create Next App",
@@ -20,9 +18,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen [&>section:first-of-type]:pt-16`}
       >
-        {children}
+        <ProductProvider>
+          <Header />
+          <Toaster position="top-right" />
+          <RouteLoader>
+            {children}
+          </RouteLoader>
+          <Footer />
+        </ProductProvider>
       </body>
     </html>
   );
